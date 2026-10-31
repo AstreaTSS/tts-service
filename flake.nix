@@ -44,8 +44,8 @@
           cargoLock = {
             lockFile = ./Cargo.lock;
             outputHashes = {
-              "serenity-0.12.5" = "sha256-OS5ZM4kgLqJ9TrJHoGlxuhwbvzygqKm4kTLg+FMUBfg=";
-              "songbird-0.6.0" = "sha256-6pPdpUU3W+WBRXQROFEac7Moa0crYWZ/TDfwYJhzvPc=";
+              "serenity-0.12.5" = "sha256-7MuZU8e7cCPnv9WgS5HWU93tT1HOBvlLOI1H2ypmu+o=";
+              "songbird-0.6.1" = "sha256-hOfSZ3OT9jB40rVvRcgl0OdLD3k0fOrpUxhWo4aSc3c=";
             };
           };
 
