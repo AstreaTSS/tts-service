@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable-small/nixexprs.tar.zst";
     flake-utils.url = "github:numtide/flake-utils";
 
     tts-utils.url = "github:Discord-TTS/shared-workflows";
@@ -44,15 +44,22 @@
           cargoLock = {
             lockFile = ./Cargo.lock;
             outputHashes = {
-              "serenity-0.12.5" = "sha256-7MuZU8e7cCPnv9WgS5HWU93tT1HOBvlLOI1H2ypmu+o=";
-              "songbird-0.6.1" = "sha256-hOfSZ3OT9jB40rVvRcgl0OdLD3k0fOrpUxhWo4aSc3c=";
+              "serenity-0.12.5" = "sha256-Diqj8Ni1sfZ8U0wzkFzelrYOfVTl7BsjYGUsxIHA6kw=";
+              "serenity-voice-model-0.3.0" = "sha256-fXUAcP1XDfiL2ewbtIREWQnbNUuceHDffaG7r1FLAK4=";
+              "songbird-0.6.1" = "sha256-MeDuEfxLoe+cQCbB2LqB71a24ORPbecNSG9yqxAP1Yo=";
             };
           };
 
+          buildInputs = with pkgs; [
+            aws-lc
+            zstd
+            opus
+          ];
           nativeBuildInputs = with pkgs; [
             makeWrapper
-            cmake
+            pkg-config
           ];
+
           patchPhase = ''
             substituteInPlace src/modes/espeak.rs \
               --replace-fail /usr/share/mbrola ${pkgs.mbrola-voices} \
