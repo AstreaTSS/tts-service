@@ -89,15 +89,26 @@ pub async fn ws_task(mut ws: axum::extract::ws::WebSocket) {
                 };
 
                 call.queue().modify_queue(|queue| {
-                    queue.retain(|track| {
-                        if !message_ids.contains(&*track.data::<TrackData>()) {
-                            return true;
-                        }
+                    let Some(first_track) = queue.front().map(|track| track.uuid()) else {
+                        return;
+                    };
 
-                        // Drop errors as only occurs if channel is dead.
-                        let _ = track.stop();
-                        false
+                    queue.retain(|track| {
+                        if message_ids.contains(&*track.data::<TrackData>()) {
+                            // Drop errors as only occurs if channel is dead.
+                            let _ = track.stop();
+                            false
+                        } else {
+                            true
+                        }
                     });
+
+                    // Ensure that the first track in the queue is playing.
+                    if let Some(track) = queue.front()
+                        && track.uuid() != first_track
+                    {
+                        drop(track.play());
+                    }
                 });
             }
             IncomingMessage::ClearQueue => {
